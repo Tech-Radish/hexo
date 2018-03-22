@@ -136,15 +136,15 @@
   
     
     <entry>
-      <title>读书</title>
-      <link href="/reading/index.html"/>
-      <content type="html"><![CDATA[<h1 id="我想读"><a href="#我想读" class="headerlink" title="我想读"></a>我想读</h1><p>书籍1</p><hr><p>书籍2</p>]]></content>
-    </entry>
-    
-    <entry>
       <title>关于</title>
       <link href="/about/index.html"/>
       <content type="html"><![CDATA[<p>大家好，我是tech.radish。欢迎来到我的个人技术博客。</p>]]></content>
+    </entry>
+    
+    <entry>
+      <title>读书</title>
+      <link href="/reading/index.html"/>
+      <content type="html"><![CDATA[<h1 id="我想读"><a href="#我想读" class="headerlink" title="我想读"></a>我想读</h1><p>书籍1</p><hr><p>书籍2</p>]]></content>
     </entry>
     
   
