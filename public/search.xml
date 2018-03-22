@@ -5,7 +5,7 @@
     <entry>
       <title>关于k阶矩的理解</title>
       <link href="/2018/03/22/%E5%85%B3%E4%BA%8Ek%E9%98%B6%E7%9F%A9%E7%9A%84%E7%90%86%E8%A7%A3/"/>
-      <content type="html"><![CDATA[<h1 id="k阶原点矩、二阶矩、3阶矩该怎么理解？"><a href="#k阶原点矩、二阶矩、3阶矩该怎么理解？" class="headerlink" title="k阶原点矩、二阶矩、3阶矩该怎么理解？"></a>k阶原点矩、二阶矩、3阶矩该怎么理解？</h1><blockquote><p>阶矩是用来描述随机变量的概率分布的特性.</p></blockquote><blockquote><p>一阶矩指的是随机变量的平均值,即期望值</p><p>二阶矩指的是随机变量的方差</p><p>三阶矩指的是随机变量的偏度</p><p>四阶矩指的是随机变量的峰度</p></blockquote><blockquote><p>因此通过计算矩,则可以得出随机变量的分布形状</p></blockquote>]]></content>
+      <content type="html"><![CDATA[<h1 id="k阶原点矩、二阶矩、3阶矩该怎么理解？"><a href="#k阶原点矩、二阶矩、3阶矩该怎么理解？" class="headerlink" title="k阶原点矩、二阶矩、3阶矩该怎么理解？"></a>k阶原点矩、二阶矩、3阶矩该怎么理解？</h1><a id="more"></a><blockquote><p>阶矩是用来描述随机变量的概率分布的特性.</p></blockquote><blockquote><p>一阶矩指的是随机变量的平均值,即期望值</p><p>二阶矩指的是随机变量的方差</p><p>三阶矩指的是随机变量的偏度</p><p>四阶矩指的是随机变量的峰度</p></blockquote><blockquote><p>因此通过计算矩,则可以得出随机变量的分布形状</p></blockquote>]]></content>
       
       <categories>
           
@@ -90,9 +90,9 @@
       
         <tags>
             
-            <tag> python </tag>
-            
             <tag> 图像处理 </tag>
+            
+            <tag> python </tag>
             
             <tag> 直方图均衡化 </tag>
             
