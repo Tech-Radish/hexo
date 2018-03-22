@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+    
+    <entry>
+      <title>Mnist手写数字体识别(tensorflow)</title>
+      <link href="/2018/03/20/Mnist%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E4%BD%93%E8%AF%86%E5%88%AB-tensorflow/"/>
+      <content type="html"><![CDATA[<h1 id="Tensorflow"><a href="#Tensorflow" class="headerlink" title="Tensorflow"></a>Tensorflow</h1><blockquote><p>首先，简单的说下，tensorflow的基本架构。<br>使用 TensorFlow, 你必须明白 TensorFlow:</p></blockquote><ul><li>使用图 (graph) 来表示计算任务.</li><li>在被称之为 会话 (Session) 的上下文 (context) 中执行图.</li><li>使用 tensor 表示数据.</li><li>通过 变量 (Variable) 维护状态.</li><li>使用 feed 和 fetch 可以为任意的操作(arbitrary operation) 赋值或者从其中获取数据.</li></ul><a id="more"></a><h1 id="Tensor"><a href="#Tensor" class="headerlink" title="Tensor"></a>Tensor</h1><blockquote><p>TensorFlow 是一个编程系统, 使用图来表示计算任务. 图中的节点被称之为 op (operation 的缩写). 一个 op 获得 0 个或多个 Tensor, 执行计算, 产生 0 个或多个 Tensor. 每个 Tensor 是一个类型化的多维数组. 例如, 你可以将一小组图像集表示为一个四维浮点数数组, 这四个维度分别是 [batch, height, width, channels].</p></blockquote><blockquote><p>一个 TensorFlow 图描述了计算的过程. 为了进行计算, 图必须在 会话 里被启动. 会话 将图的 op 分发到诸如 CPU 或 GPU 之类的 设备 上, 同时提供执行 op 的方法. 这些方法执行后, 将产生的 tensor 返回. 在 Python 语言中, 返回的 tensor 是 numpy ndarray 对象; 在 C 和 C++ 语言中, 返回的 tensor 是tensorflow::Tensor 实例.</p></blockquote><blockquote><p>Tensor是tensorflow中非常重要且非常基础的概念，可以说数据的呈现形式都是用tensor表示的。输入输出都是tensor，tensor的中文含义，就是张量，可以简单的理解为线性代数里面的向量或者矩阵。</p></blockquote><h1 id="Graph"><a href="#Graph" class="headerlink" title="Graph"></a>Graph</h1><blockquote><p>TensorFlow 程序通常被组织成一个构建阶段和一个执行阶段. 在构建阶段, op 的执行步骤 被描述成一个图. 在执行阶段, 使用会话执行执行图中的 op.</p></blockquote><blockquote><p>例如, 通常在构建阶段创建一个图来表示和训练神经网络, 然后在执行阶段反复执行图中的训练 op. 下面这个图，就是一个比较形象的说明，图中的每一个节点，就是一个op，各个op透过tensor数据流向形成边的连接，构成了一个图。</p></blockquote><p><img src="https://images2015.cnblogs.com/blog/844237/201703/844237-20170330093311608-2056024255.gif" alt=""></p><blockquote><p>构建图的第一步, 是创建源 op (source op). 源 op 不需要任何输入, 例如 常量 (Constant). 源 op 的输出被传递给其它 op 做运算. Python 库中, op 构造器的返回值代表被构造出的 op 的输出, 这些返回值可以传递给其它 op 构造器作为输入.</p></blockquote><blockquote><p>TensorFlow Python 库有一个默认图 (default graph), op 构造器可以为其增加节点. 这个默认图对 许多程序来说已经足够用了.</p></blockquote><h1 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h1><blockquote><p>当图构建好后，需要创建一个Session来运行构建好的图，来实现逻辑，创建session的时候，若无任何参数，tensorflow将启用默认的session。session.run(xxx)是比较典型的使用方案, session运行结束后，返回值是一个tensor。</p></blockquote><blockquote><p>tensorflow中的session，有两大类，一种就是普通的session，即tensorflow.Session(),还有一种是交互式session，即tensorflow.InteractiveSession(). 使用Tensor.eval() 和Operation.run()方法代替Session.run(). 这样可以避免使用一个变量来持有会话, 为程序架构的设计添加了灵活性.</p></blockquote><h1 id="数据载体"><a href="#数据载体" class="headerlink" title="数据载体"></a>数据载体</h1><blockquote><p>Tensorflow体系下，变量（Variable）是用来维护图计算过程中的中间状态信息，是一种常见高频使用的数据载体，还有一种特殊的数据载体，那就是常量（Constant），主要是用作图处理过程的输入量。这些数据载体，也都是以Tensor的形式体现。变量定义和常量定义上，比较好理解：</p></blockquote><pre><code># 创建一个变量, 初始化为标量0.没有指定数据类型（dtype）state = tf.Variable(0, name=&quot;counter&quot;)# 创建一个常量，其值为1，没有指定数据类型（dtype）one = tf.constant(1)</code></pre><blockquote><p>针对上面的变量和常量，看看Tensorflow里面的函数定义：</p></blockquote><pre><code>class Variable(object):　def __init__(self,    initial_value=None,    trainable=True,    collections=None,    validate_shape=True,    caching_device=None,    name=None,    variable_def=None,    dtype=None,    expected_shape=None,    import_scope=None)：</code></pre><blockquote></blockquote><pre><code>def constant(value, dtype=None, shape=None, name=&quot;Const&quot;, verify_shape=False)：</code></pre><blockquote><p>从上面的源码可以看出，定义变量，其实就是定义了一个Variable的实例，而定义常量，其实就是调用了一下常量函数，创建了一个常量Tensor。</p></blockquote><blockquote><p>还有一个很重要的概念，那就是占位符placeholder，这个在Tensorflow中进行Feed数据灌入时，很有用。所谓的数据灌入，指的是在创建Tensorflow的图时，节点的输入部分，就是一个placeholder，后续在执行session操作的前，将实际数据Feed到图中，进行执行即可。</p></blockquote><pre><code>input1 = tf.placeholder(tf.types.float32)input2 = tf.placeholder(tf.types.float32)output = tf.mul(input1, input2)</code></pre><blockquote><pre><code>with tf.Session() as sess:  print sess.run([output], feed_dict={input1:[7.], input2:[2.]})</code></pre></blockquote><pre><code># 输出:# [array([ 14.], dtype=float32)]</code></pre><blockquote><p>占位符的定义原型，也是一个函数：</p></blockquote><pre><code>def placeholder(dtype, shape=None, name=None)：</code></pre><blockquote><p>到此，Tensorflow的入门级的基本知识介绍完了。下面，将结合一个MNIST的手写识别的例子，从代码上简单分析一下，源代码分成4个文件：</p></blockquote><hr><blockquote><p>main.py驱动程序</p></blockquote><pre><code>#!/usr/bin/env python# -*- coding: utf-8 -*-# @Time    : 2018/2/21 20:41# @Author  : Jasontang# @Site    : # @File    : main.py# @ToDo    : 驱动程序import _threadfrom neural_network_learning.hand_writting_refactor import mnist_train, mnist_evalif __name__ == &apos;__main__&apos;:    _thread.start_new_thread(mnist_train.main, (None,))    _thread.start_new_thread(mnist_eval.main, (None,))    # 这个不能删除，当做主线程    while 1:        pass</code></pre><blockquote><p>mnist_inference.py计算前向传播的过程及定义了神经网络的参数</p></blockquote><pre><code>#!/usr/bin/env python# -*- coding: utf-8 -*-# @Time    : 2018/2/20 19:43# @Author  : Jasontang# @Site    : # @File    : mnist_inference.py# @ToDo    : 定义了前向传播的过程及神经网络的参数import tensorflow as tf# 定义神经网络结构相关的参数INPUT_NODE = 784OUTPUT_NODE = 10LAYER1_NODE = 500# 训练时会创建这些变量，测试时会通过保存的模型加载这些变量的取值def get_weight_variable(shape, regularizer):    weights = tf.get_variable(&quot;weights&quot;, shape, initializer=tf.truncated_normal_initializer(stddev=0.1))    # 当使用正则化生成函数时,当前变量的正则化损失加入名字为losses的集合.    # 自定义集合    if regularizer:        tf.add_to_collection(&quot;losses&quot;, regularizer(weights))    return weights# 前向传播过程def inference(input_tensor, regularizer):    # 声明第一层神经网络的变量并完成前向传播过程    with tf.variable_scope(&quot;layer1&quot;):        weights = get_weight_variable([INPUT_NODE, LAYER1_NODE], regularizer)        biases = tf.get_variable(&quot;biases&quot;, [LAYER1_NODE], initializer=tf.constant_initializer(0.0))        layer1 = tf.nn.relu(tf.matmul(input_tensor, weights) + biases)    # 声明第二层圣经网络变量并完成前向传播过程    with tf.variable_scope(&quot;layer2&quot;):        weights = get_weight_variable([LAYER1_NODE, OUTPUT_NODE], regularizer)        biases = tf.get_variable(&quot;biases&quot;, [OUTPUT_NODE], initializer=tf.constant_initializer(0.0))        layer2 = tf.matmul(layer1, weights) + biases    # 返回最后前向传播的结果    return layer2</code></pre><blockquote><p>mnist_train.py定义了神经网络的训练过程</p></blockquote><pre><code>#!/usr/bin/env python# -*- coding: utf-8 -*-# @Time    : 2018/2/21 16:08# @Author  : Jasontang# @Site    : # @File    : mnist_train.py# @ToDo    : 定义了神经网络的训练过程import osimport tensorflow as tffrom tensorflow.examples.tutorials.mnist import input_dataimport neural_network_learning.hand_writting_refactor.mnist_inference as mnist_inference# 配置神经网络的参数BATCH_SIZE = 100LEARNING_REATE_BASE = 0.8LEARNING_RATE_DECAY = 0.99REGULARAZTION_RATE = 0.0001TRAING_STEPS = 2000MOVING_AVERAGE_DECAY = 0.99# 模型保存的路径和文件名MODEL_SAVE_PATH = &quot;./model/&quot;MODEL_NAME = &quot;model.ckpt&quot;def train(mnist):    # 定义输入输出placeholder    x = tf.placeholder(tf.float32, [None, mnist_inference.INPUT_NODE], name=&quot;input-x&quot;)    y_ = tf.placeholder(tf.float32, [None, mnist_inference.OUTPUT_NODE], name=&quot;input-y&quot;)    regularizer = tf.contrib.layers.l2_regularizer(REGULARAZTION_RATE)    y = mnist_inference.inference(x, regularizer)    global_step = tf.Variable(0, trainable=False)    variable_averages = tf.train.ExponentialMovingAverage(MOVING_AVERAGE_DECAY, global_step)    variables_average_op = variable_averages.apply(tf.trainable_variables())    cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=tf.argmax(y_, 1), logits=y)    cross_entropy_mean = tf.reduce_mean(cross_entropy)    loss = cross_entropy_mean + tf.add_n(tf.get_collection(&quot;losses&quot;))    learing_rate = tf.train.exponential_decay(LEARNING_REATE_BASE,                                              global_step,                                              mnist.train.num_examples / BATCH_SIZE,                                              LEARNING_RATE_DECAY)    train_step = tf.train.GradientDescentOptimizer(learing_rate).minimize(loss, global_step)    with tf.control_dependencies([train_step, variables_average_op]):        train_op = tf.no_op(name=&quot;train&quot;)    # 初始化持久化类    saver = tf.train.Saver()    with tf.Session() as sess:        tf.global_variables_initializer().run()        for i in range(TRAING_STEPS):            xs, ys = mnist.train.next_batch(BATCH_SIZE)            _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={x: xs, y_: ys})            if i % 1000 == 0:                print(&quot;After %d training step(s), loss on training batch is %g.&quot; % (i, loss_value))                saver.save(sess, os.path.join(MODEL_SAVE_PATH, MODEL_NAME), global_step=global_step)def main(argv=None):    mnist = input_data.read_data_sets(&quot;../MNIST_data&quot;, one_hot=True)    train(mnist)if __name__ == &apos;__main__&apos;:    tf.app.run()</code></pre><blockquote><p>mnist_eval.py测试过程</p></blockquote><pre><code>#!/usr/bin/env python# -*- coding: utf-8 -*-# @Time    : 2018/2/21 16:32# @Author  : Jasontang# @Site    : # @File    : mnist_eval.py# @ToDo    : 测试过程import timeimport tensorflow as tffrom tensorflow.examples.tutorials.mnist import input_dataimport neural_network_learning.hand_writting_refactor.mnist_inference as mnist_inferenceimport neural_network_learning.hand_writting_refactor.mnist_train as mnist_train# 每10s加载一次最新模型，并在测试数据上测试最新模型的正确率EVAL_INTERVAL_SECS = 10def evaluate(mnist):    x = tf.placeholder(tf.float32, [None, mnist_inference.INPUT_NODE], name=&quot;input-x&quot;)    y_ = tf.placeholder(tf.float32, [None, mnist_inference.OUTPUT_NODE], name=&quot;input-y&quot;)    validate_feed = {x: mnist.validation.images,                     y_: mnist.validation.labels}    y = mnist_inference.inference(x, None)    correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))    variable_averages = tf.train.ExponentialMovingAverage(mnist_train.MOVING_AVERAGE_DECAY)    variables_to_restore = variable_averages.variables_to_restore()    saver = tf.train.Saver(variables_to_restore)    # 每隔EVAL_INTERVAL_SECS秒调用一次计算正确率的过程以检测训练过程中正确率的变化    stop_count = 0    while True:        with tf.Session() as sess:            ckpt = tf.train.get_checkpoint_state(mnist_train.MODEL_SAVE_PATH)            # 停止条件 #            stop_count += EVAL_INTERVAL_SECS            if stop_count == mnist_train.TRAING_STEPS:                return            # 停止条件 #            if ckpt and ckpt.model_checkpoint_path:                saver.restore(sess, ckpt.model_checkpoint_path)                # 通过文件名得到模型保存时迭代的轮数                # 输出./model/model.ckpt-29001                print(ckpt.model_checkpoint_path)                global_step = ckpt.model_checkpoint_path.split(&quot;/&quot;)[-1].split(&quot;-&quot;)[-1]                accuracy_score = sess.run(accuracy, feed_dict=validate_feed)                print(&quot;After %s training step(s), validation accuracy is %g&quot; % (global_step, accuracy_score))            else:                print(&quot;No checkpoint file found&quot;)                return        time.sleep(EVAL_INTERVAL_SECS)def main(argv=None):    mnist = input_data.read_data_sets(&quot;../MNIST_data&quot;, one_hot=True)    evaluate(mnist)if __name__ == &apos;__main__&apos;:    tf.app.run()</code></pre><h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://www.cnblogs.com/shihuc/p/6648130.html" title="Tensorflow之基于MNIST手写识别的入门介绍" target="_blank" rel="noopener">https://www.cnblogs.com/shihuc/p/6648130.html</a></p>]]></content>
+      
+      <categories>
+          
+          <category> tensorflow学习 </category>
+          
+          <category> tensorflow-Demo </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Mnist </tag>
+            
+            <tag> tensorflow </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>直方图均衡化图片</title>
+      <link href="/2018/03/20/%E7%9B%B4%E6%96%B9%E5%9B%BE%E5%9D%87%E8%A1%A1%E5%8C%96%E5%9B%BE%E7%89%87/"/>
+      <content type="html"><![CDATA[<h1 id="直方图均衡化"><a href="#直方图均衡化" class="headerlink" title="直方图均衡化"></a>直方图均衡化</h1><ul><li>1.实验原理<blockquote><p>用直方图变换方法进行图像增强，通过改变图像的直方图来概念图像中像素的灰度，以达到图像增强的目的。</p></blockquote></li></ul><ul><li>2.实验步骤<blockquote><p>   1、对图像进行灰度统计，求灰度统计直方图。</p><p>   2、对灰度统计直方图进行归一化。</p><p>   3、求累积分布函数，求累积分布直方图。</p><p>   4、对累积直方图各项进行取整扩展tk=int[(L-1)tk + 0.5].</p><p>   5、确定映射对应关系，根据映射关系计算均衡化直方图。</p></blockquote></li></ul><a id="more"></a><ul><li>3.代码</li></ul><blockquote><p>代码采用python2.0实现   </p></blockquote><pre><code>#!/usr/bin/env python# -*- coding: utf-8 -*-# @Time    : 2017/10/15 18:49# @Author  : Jasontang# @Site    : # @File    : histequa.py# @ToDo    : 直方图均衡化(8bit)from PIL import Imageimport matplotlib as mplimport matplotlib.pyplot as pltimport numpy as npmpl.rcParams[&apos;font.sans-serif&apos;] = &quot;SimHei&quot;mpl.rcParams[&apos;axes.unicode_minus&apos;] = Falsedef image2vector():    return np.array(Image.open(&quot;images/lena512.bmp&quot;, &quot;r&quot;).convert(&quot;L&quot;))def equalization(data):    # 得到图像的高度、宽度    h = data.shape[0]    w = data.shape[1]    # 灰度数组    grayArr = np.zeros(255)    # 进行像素灰度统计    for i in range(h):        for j in range(w):            grayArr[data[i][j]] += 1    print grayArr.shape, grayArr.max()    # 归一化    idx = 0    for item in grayArr:        grayArr[idx] = item / (h * w)        idx += 1    # print grayArr    cdf = np.zeros(grayArr.shape)    sum = 0    # 计算灰度分布密度    # print cdf.shape    for i in range(len(grayArr)):        sum += grayArr[i]        cdf[i] = sum    L = 255    # print cdf    # 累计分布取整    indexArr = ((L - 1) * cdf + 0.5).astype(np.uint8)    # print indexArr    # 对灰度值进行映射（均衡化）    for i in range(h):        for j in range(w):            data[i, j] = indexArr[data[i, j]]    return grayArr, cdf, dataif __name__ == &apos;__main__&apos;:    data = image2vector()    # print data.shape    plt.figure(figsize=(7, 9))    plt.subplot(321)    plt.title(u&quot;原始图像&quot;)    plt.imshow(data, cmap=&apos;gray&apos;)    plt.subplot(322)    plt.title(u&quot;原始灰度&quot;)    plt.hist(data.flatten(), normed=True, bins=256)    srcGray, cdf, equlArr = equalization(data)    plt.subplot(323)    plt.title(u&quot;归一化直方图&quot;)    plt.hist(srcGray, 255)    plt.subplot(324)    plt.title(u&quot;累积直方图&quot;)    plt.hist(cdf, 255)    plt.subplot(325)    plt.title(u&quot;均衡化图像&quot;)    plt.imshow(equlArr, cmap=&apos;gray&apos;)    plt.subplot(326)    plt.title(u&quot;均衡化的直方图&quot;)    plt.hist(equlArr.flatten(), normed=True, bins=256)    # print equlArr    plt.tight_layout(0.3, rect=(0, 0, 1, 0.92))    plt.show()</code></pre><ul><li>4.实验结果<br><img src="https://raw.githubusercontent.com/Mic-JasonTang/Mic-Jasontang.github.io/master/css/images/histequa.png" alt="实验结果"></li></ul><ul><li>5.实验总结<blockquote><p>在对数据进行归一化的时候，是用每个灰度值除以像素总数。在最后通过映射关系计算均衡化直方图时，是借助求出的映射关系，直接对原图的像素点进行映射。通过均衡化能增强图像的动态范围偏小的图像的反差，达到增强图像整体对比度的效果。</p></blockquote></li></ul>]]></content>
+      
+      <categories>
+          
+          <category> 图像处理 </category>
+          
+          <category> 图像增强 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 图像处理 </tag>
+            
+            <tag> python </tag>
+            
+            <tag> 直方图均衡化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>图像与常用算子进行卷积运算</title>
+      <link href="/2018/03/19/%E5%9B%BE%E5%83%8F%E4%B8%8E%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E8%BF%9B%E8%A1%8C%E5%8D%B7%E7%A7%AF%E8%BF%90%E7%AE%97/"/>
+      <content type="html"><![CDATA[<blockquote><p>图像卷积实验，使用guass、soble、prewitt、 laplacian算子进行图像增强。</p></blockquote><a id="more"></a><h1 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h1><pre><code>#!/usr/bin/env python# -*- coding: utf-8 -*-# @Time    : 2017/9/18 16:57# @Author  : Jasontang# @Site    : # @File    : image_convolve.py# @ToDo    :  图像卷积import numpy as npimport osfrom PIL import Imagedef convolve(image, weight):    height, width = image.shape    h, w = weight.shape    height_new = height - h + 1    width_new = width - w + 1    print image.shape    image_new = np.zeros((height_new, width_new), dtype=np.float)    for i in range(height_new):        for j in range(width_new):            image_new[i, j] = np.sum(image[i:i + h, j:j + w] * weight)    image_new = image_new.clip(0, 255)    image_new = np.rint(image_new).astype(&quot;uint8&quot;)    print image_new.shape    return image_new# image_new = 255 * (image_new - image_new.min()) / (image_new.max() - image_new.min())if __name__ == &apos;__main__&apos;:    image = Image.open(&quot;son.png&quot;, &quot;r&quot;)    output_path = &quot;.\\ImageConvolve\\&quot;    if not os.path.exists(output_path):        os.mkdir(output_path)    a = np.array(image)    avg3 = np.ones((3, 3))    avg3 /= avg3.sum()    avg5 = np.ones((5, 5))    avg5 /= avg5.sum()    gauss = np.array(([0.003, 0.013, 0.022, 0.013, 0.003],                      [0.013, 0.059, 0.097, 0.059, 0.013],                      [0.022, 0.097, 0.159, 0.097, 0.022],                      [0.013, 0.059, 0.097, 0.059, 0.013],                      [0.003, 0.013, 0.022, 0.013, 0.003]))    soble_x = np.array(([-1, 0, 1], [-2, 0, 2], [-1, 0, 1]))    soble_y = np.array(([-1, -2, -1], [0, 0, 0], [1, 2, 1]))    soble = np.array(([-1, -1, 0], [-1, 0, 1], [0, 1, 1]))    prewitt_x = np.array(([-1, 0, 1], [-1, 0, 1], [-1, 0, 1]))    prewitt_y = np.array(([-1, -1, -1], [0, 0, 0], [1, 1, 1]))    prewitt = np.array(([-2, -1, 0], [-1, 0, 1], [0, 1, 2]))    laplacian4 = np.array(([0, -1, 0], [-1, 4, -1], [0, -1, 0]))    laplacian8 = np.array(([-1, -1, -1], [-1, 8, -1], [-1, -1, -1]))    weight_list = (        &apos;avg3&apos;, &apos;avg5&apos;, &apos;gauss&apos;, &apos;soble_x&apos;, &apos;soble_y&apos;, &apos;soble&apos;, &apos;prewitt_x&apos;, &apos;prewitt_y&apos;, &apos;prewitt&apos;, &apos;laplacian4&apos;,        &apos;laplacian8&apos;)    print &quot;梯度检测&quot;    for weight in weight_list:        print weight, &quot;R&quot;,        R = convolve(a[:, :, 0], eval(weight))        print &quot;G&quot;,        G = convolve(a[:, :, 1], eval(weight))        print &quot;B&quot;        B = convolve(a[:, :, 2], eval(weight))        I = np.stack((R, G, B), 2)    # Image.fromarray(I).save(output_path + weight + &quot;.png&quot;)</code></pre><h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p><img src="https://raw.githubusercontent.com/Mic-JasonTang/Mic-Jasontang.github.io/master/css/images/img-cov.png" alt="图像卷积运算实验结果"></p>]]></content>
+      
+      <categories>
+          
+          <category> 图像处理 </category>
+          
+          <category> 图像增强 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 图像处理 </tag>
+            
+            <tag> 卷积运算 </tag>
+            
+            <tag> guass </tag>
+            
+            <tag> soble </tag>
+            
+            <tag> prewitt </tag>
+            
+            <tag> laplacian </tag>
+            
+        </tags>
+      
+    </entry>
+    
+  
+  
+    
+    <entry>
+      <title>读书</title>
+      <link href="/reading/index.html"/>
+      <content type="html"><![CDATA[<h1 id="我想读"><a href="#我想读" class="headerlink" title="我想读"></a>我想读</h1><p>书籍1</p><hr><p>书籍2</p>]]></content>
+    </entry>
+    
+    <entry>
+      <title>关于</title>
+      <link href="/about/index.html"/>
+      <content type="html"><![CDATA[<p>大家好，我是tech.radish。欢迎来到我的个人技术博客。</p>]]></content>
+    </entry>
+    
+  
+</search>

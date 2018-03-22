@@ -1,0 +1,31 @@
+{
+    "avatar": "https://raw.githubusercontent.com/Mic-JasonTang/Mic-Jasontang.github.io/master/css/images/avatar.jpg",
+    "name": "tech.radish",
+	"tag": "python/Java/ML/CV",
+    "desc": "行走在边缘的coder",
+    "skills": {
+        "ptyhon": 5,
+		"Java": 6,
+		"invisible-split-line-1": -1,
+		"ML": 4
+    },
+    "projects": [{
+		"name": "合金战争(Java Swing + MySql + Socket)",
+		"image": "https://raw.githubusercontent.com/Mic-JasonTang/Mic-Jasontang.github.io/master/css/images/game.png",
+		"tags": ["Java", "游戏开发"],
+		"description": "合金战争是一款使用JavaSwing作为界面，MySQL作为数据库服务器，使用Socket通信的网络版RPG游戏",
+		"link_text": "合金战争",
+		"link": null
+	}, {
+		"name": "iclass智能课堂助手",
+		"image": "https://raw.githubusercontent.com/Mic-JasonTang/Mic-Jasontang.github.io/master/css/images/iclass.png",
+		"description": "iclass是一款实用SSM框架开发的轻量级课堂辅助教学系统，旨在加强和方便师生之间的交流合作，提高教学效率。拥有web端和安卓端（本人完成web端和安卓后端的开发）",
+		"tags": ["毕业设计", "SSM框架"],
+		"link_text": "Github地址",
+		"link": "https://github.com/Mic-JasonTang/iclass"
+	}],
+	"reward": [
+	    "https://raw.githubusercontent.com/Mic-JasonTang/Mic-Jasontang.github.io/master/css/images/alipay-rewardcode.jpg",
+		"https://raw.githubusercontent.com/Mic-JasonTang/Mic-Jasontang.github.io/master/css/images/wetchat-rewardcode.jpg"
+	]
+}
