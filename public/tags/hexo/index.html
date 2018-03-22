@@ -7,15 +7,13 @@
 
     
 
-    <title>图像与常用算子进行卷积运算 | tech.radish</title>
+    <title>hexo | tech.radish</title>
     <meta name="author" content="yang.tang">
-    
-    <meta name="description" content="图像卷积实验，使用guass、soble、prewitt、 laplacian算子进行图像增强。">
     
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta property="og:title" content="图像与常用算子进行卷积运算"/>
+    
     <meta property="og:site_name" content="tech.radish"/>
 
     
@@ -249,191 +247,30 @@
 
     <main>
         <div class="container main-container">
-    <nav class="page-nav hide-on-small-only">
+    
+
+<nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper indigo">
-        <span class="breadcrumb">当前位置（分类目录）</span>
-        
-            
-    
-    
-    <a class="breadcrumb" href="/categories/图像处理/">图像处理</a><a class="breadcrumb" href="/categories/图像处理/图像增强/">图像增强</a>
-
-
+        <span class="breadcrumb">当前位置（标签）</span>
         
 
+        
+            <a class="breadcrumb" href="/tags/hexo/">hexo</a>
         
     </div>
 </nav>
 
-<article>
-    <div class="card">
-        <div class="card-content">
-            
-
-            <div class="article-title">
-                
-    
-        <h1>图像与常用算子进行卷积运算</h1>
-    
 
 
-            </div>
-            <time class="green-link-context" datetime="2018-03-19T11:11:57.000Z"><a href="/2018/03/19/图像与常用算子进行卷积运算/">2018-03-19</a></time>
-
-			<div style="float: right;color: #E91E63">
-			阅读次数 <span id="busuanzi_value_page_pv"></span>
-			</div>
-            <span id="busuanzi_container_page_pv" class="read-times-container">
-    <i class="fa fa-eye"></i>
-    <span id="busuanzi_value_page_pv"></span>
-</span>
-
-            
-    <div class="tags-row">
+    <div class="collection mt-0">
         
-            <a href="/tags/图像处理/" class="chip pink lighten-1">图像处理</a>
-        
-            <a href="/tags/卷积运算/" class="chip pink lighten-1">卷积运算</a>
-        
-            <a href="/tags/guass/" class="chip pink lighten-1">guass</a>
-        
-            <a href="/tags/soble/" class="chip pink lighten-1">soble</a>
-        
-            <a href="/tags/prewitt/" class="chip pink lighten-1">prewitt</a>
-        
-            <a href="/tags/laplacian/" class="chip pink lighten-1">laplacian</a>
+            <a href="/2018/03/22/Hexo多电脑同步写作/" class="collection-item grey-text text-darken-1">
+                <time datetime="2018-03-22T13:01:20.000Z">2018-03-22</time>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                Hexo多电脑同步写作
+            </a>
         
     </div>
-
-
-            <div class="toc green-link-context hide-on-med-and-down">
-    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#实现代码"><span class="section table-of-contents-text">实现代码</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#实验结果"><span class="section table-of-contents-text">实验结果</span></a></li></ol>
-</div>
-
-
-            <div class="entry green-link-context">
-                <blockquote>
-<p>图像卷积实验，使用guass、soble、prewitt、 laplacian算子进行图像增强。</p>
-</blockquote>
-<a id="more"></a>
-<h1 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h1><pre><code>#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Time    : 2017/9/18 16:57
-# @Author  : Jasontang
-# @Site    : 
-# @File    : image_convolve.py
-# @ToDo    :  图像卷积
-
-import numpy as np
-import os
-from PIL import Image
-
-
-def convolve(image, weight):
-    height, width = image.shape
-    h, w = weight.shape
-    height_new = height - h + 1
-    width_new = width - w + 1
-    print image.shape
-    image_new = np.zeros((height_new, width_new), dtype=np.float)
-    for i in range(height_new):
-        for j in range(width_new):
-            image_new[i, j] = np.sum(image[i:i + h, j:j + w] * weight)
-    image_new = image_new.clip(0, 255)
-    image_new = np.rint(image_new).astype(&quot;uint8&quot;)
-    print image_new.shape
-    return image_new
-
-
-# image_new = 255 * (image_new - image_new.min()) / (image_new.max() - image_new.min())
-
-if __name__ == &apos;__main__&apos;:
-    image = Image.open(&quot;son.png&quot;, &quot;r&quot;)
-    output_path = &quot;.\\ImageConvolve\\&quot;
-    if not os.path.exists(output_path):
-        os.mkdir(output_path)
-    a = np.array(image)
-    avg3 = np.ones((3, 3))
-    avg3 /= avg3.sum()
-    avg5 = np.ones((5, 5))
-    avg5 /= avg5.sum()
-
-    gauss = np.array(([0.003, 0.013, 0.022, 0.013, 0.003],
-                      [0.013, 0.059, 0.097, 0.059, 0.013],
-                      [0.022, 0.097, 0.159, 0.097, 0.022],
-                      [0.013, 0.059, 0.097, 0.059, 0.013],
-                      [0.003, 0.013, 0.022, 0.013, 0.003]))
-
-    soble_x = np.array(([-1, 0, 1], [-2, 0, 2], [-1, 0, 1]))
-    soble_y = np.array(([-1, -2, -1], [0, 0, 0], [1, 2, 1]))
-    soble = np.array(([-1, -1, 0], [-1, 0, 1], [0, 1, 1]))
-
-    prewitt_x = np.array(([-1, 0, 1], [-1, 0, 1], [-1, 0, 1]))
-    prewitt_y = np.array(([-1, -1, -1], [0, 0, 0], [1, 1, 1]))
-    prewitt = np.array(([-2, -1, 0], [-1, 0, 1], [0, 1, 2]))
-
-    laplacian4 = np.array(([0, -1, 0], [-1, 4, -1], [0, -1, 0]))
-    laplacian8 = np.array(([-1, -1, -1], [-1, 8, -1], [-1, -1, -1]))
-    weight_list = (
-        &apos;avg3&apos;, &apos;avg5&apos;, &apos;gauss&apos;, &apos;soble_x&apos;, &apos;soble_y&apos;, &apos;soble&apos;, &apos;prewitt_x&apos;, &apos;prewitt_y&apos;, &apos;prewitt&apos;, &apos;laplacian4&apos;,
-        &apos;laplacian8&apos;)
-
-    print &quot;梯度检测&quot;
-    for weight in weight_list:
-        print weight, &quot;R&quot;,
-        R = convolve(a[:, :, 0], eval(weight))
-        print &quot;G&quot;,
-        G = convolve(a[:, :, 1], eval(weight))
-        print &quot;B&quot;
-        B = convolve(a[:, :, 2], eval(weight))
-        I = np.stack((R, G, B), 2)
-    # Image.fromarray(I).save(output_path + weight + &quot;.png&quot;)
-</code></pre><h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p><img src="https://raw.githubusercontent.com/Mic-JasonTang/Mic-Jasontang.github.io/master/css/images/img-cov.png" alt="图像卷积运算实验结果"></p>
-
-                
-<p class="green-link-context">
-    <a href="/2018/03/20/直方图均衡化图片/" rel="next" title="直方图均衡化图片">
-    上一篇：直方图均衡化图片
-  </a>
-</p>
-
-
-
-
-            </div>
-			
-        </div>
-    </div>
-</article>
-
-
-
-
-
-
-
-
-	<!-- 来必力City版安装代码 -->
-<div id="lv-container" data-id="city" data-uid="MTAyMC8zNTAzNy8xMTU3Mw==">
-	<script type="text/javascript">
-   (function(d, s) {
-       var j, e = d.getElementsByTagName(s)[0];
-
-       if (typeof LivereTower === 'function') { return; }
-
-       j = d.createElement(s);
-       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-       j.async = true;
-
-       e.parentNode.insertBefore(j, e);
-   })(document, 'script');
-	</script>
-<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-</div>
-<!-- City版安装代码已完成 -->
-
-
-
 
 
 </div>
