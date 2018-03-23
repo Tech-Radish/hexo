@@ -1,0 +1,36 @@
+<%- partial('pagenav', {nav_head: __('current_page') + __('page_name.categories'), partial_path: 'post/category', archive_html: null}) %>
+<article>
+    <div class="card">
+        <div class="card-content">
+            <% if (item.photos && item.photos.length) { %>
+                <%- partial('post/gallery') %>
+            <% } %>
+
+            <div class="article-title">
+                <%- partial('post/title') %>
+            </div>
+            <%- partial('post/time') %>
+			<div style="float: right;color: #E91E63">
+			阅读次数 <span id="busuanzi_value_page_pv"></span>
+			</div>
+            <%- partial('post/readtimes') %>
+            <%- partial('post/tag') %>
+            <%- partial('post/tablecontents') %>
+
+            <div class="entry <%= theme.color.link %>-link-context">
+                <%- item.content %>
+                <%- partial('post/prevnext') %>
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+<%- partial('plugin/comment') %>
+
+<% if (theme.livere_uid){ %>
+	<%- partial('post/livere') %>
+<% } %>
+
+
+

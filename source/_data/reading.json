@@ -1,0 +1,74 @@
+{
+    "define": {
+	    "readed": "已读",
+        "reading": "在读",
+        "wanted": "想读"
+    },
+    "contents": {
+        "readed": [{
+            "title": "嫌疑人X的献身",
+            "cover": "https://img3.doubanio.com/lpic/s3254244.jpg",
+            "review": "百年一遇的数学天才石神，每天唯一的乐趣，便是去固定的便当店买午餐，只为看一眼在便当店做事的邻居靖子。",
+            "score": "8.9",
+            "doubanLink": "https://book.douban.com/subject/3211779/"
+        }, {
+            "title": "Python核心编程（第二版）",
+            "cover": "https://img3.doubanio.com/lpic/s3140466.jpg",
+            "review": "本书是Python开发者的完全指南——针对 Python 2.5全面升级",
+            "score": "7.7",
+            "doubanLink": "https://book.douban.com/subject/3112503/"
+        }, {
+            "title": "程序员代码面试指南：IT名企算法与数据结构题目最优解",
+            "cover": "https://img3.doubanio.com/lpic/s28313721.jpg",
+            "review": "这是一本程序员面试宝典！书中对IT名企代码面试各类题目的最优解进行了总结，并提供了相关代码实现。",
+            "score": "8.8",
+            "doubanLink": "https://book.douban.com/subject/26638586/"
+        }, {
+            "title": "机器学习实战",
+            "cover": "https://img3.doubanio.com/lpic/s26696371.jpg",
+            "review": "全书通过精心编排的实例，切入日常工作任务，摒弃学术化语言，利用高效的可复用Python代码来阐释如何处理统计数据，进行数据分析及可视化。通过各种实例，读者可从中学会机器学习的核心算法，并能将其运用于一些策略性任务中，如分类、预测、推荐。另外，还可用它们来实现一些更高级的功能，如汇总和简化等。",
+            "score": "8.2",
+            "doubanLink": "https://book.douban.com/subject/24703171/"
+        }, {
+            "title": "TensorFlow实战",
+            "cover": "https://img3.doubanio.com/lpic/s29343414.jpg",
+            "review": "《TensorFlow实战》希望能帮读者快速入门TensorFlow和深度学习，在工业界或者研究中快速地将想法落地为可实践的模型。",
+            "score": "7.3",
+            "doubanLink": "https://book.douban.com/subject/26974266/"
+        }],
+		
+		"reading": [{
+            "title": "深度学习",
+            "cover": "https://img1.doubanio.com/lpic/s29518349.jpg",
+            "review": "《深度学习》适合各类读者阅读，包括相关专业的大学生或研究生，以及不具有机器学习或统计背景、但是想要快速补充深度学习知识，以便在实际产品或平台中应用的软件工程师。",
+            "score": "8.7",
+            "doubanLink": "https://book.douban.com/subject/27087503/"
+        }, {
+            "title": "Tensorflow：实战Google深度学习框架",
+            "cover": "https://img3.doubanio.com/lpic/s29349250.jpg",
+            "review": "《Tensorflow实战》包含了深度学习的入门知识和大量实践经验，是走进这个最新、最火的人工智能领域的首选参考书。",
+            "score": "8.2",
+            "doubanLink": "https://book.douban.com/subject/26976457/"
+        }, {
+            "title": "机器学习",
+            "cover": "https://img1.doubanio.com/lpic/s28735609.jpg",
+            "review": "本书作为该领域的入门教材，在内容上尽可能涵盖机器学习基础知识的各方面。 为了使尽可能多的读者通过本书对机器学习有所了解, 作者试图尽可能少地使用数学知识. 然而, 少量的概率、统计、代数、优化、逻辑知识似乎不可避免. 因此, 本书更适合大学三年级以上的理工科本科生和研究生, 以及具有类似背景的对机器学 习感兴趣的人士. 为方便读者, 本书附录给出了一些相关数学基础知识简介.",
+            "score": "8.7",
+            "doubanLink": "https://book.douban.com/subject/26708119/"
+        }],
+
+        "wanted": [{
+            "title": "OpenCV 3计算机视觉：Python语言实现（原书第2版）",
+            "cover": "https://img3.doubanio.com/lpic/s28902360.jpg",
+            "review": "本书针对具有一定Python工作经验的程序员以及想要利用OpenCV库研究计算机视觉课题的读者。本书不要求读者具有计算机视觉或OpenCV经验，但要具有编程经验。",
+            "score": "7.8",
+            "doubanLink": "https://book.douban.com/subject/26816975/"
+        }, {
+            "title": "Python计算机视觉编程",
+            "cover": "https://img3.doubanio.com/lpic/s27305520.jpg",
+            "review": "《python计算机视觉编程》适合的读者是：有一定编程与数学基础，想要了解计算机视觉的基本理论与算法的学生，以及计算机科学、信号处理、物理学、应用数学和统计学、神经生理学、认知科学等领域的研究人员和从业者。",
+            "score": "7.5",
+            "doubanLink": "https://book.douban.com/subject/25906843/"
+        }]
+    }
+}
